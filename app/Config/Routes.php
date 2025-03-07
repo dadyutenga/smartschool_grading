@@ -8,15 +8,15 @@ use CodeIgniter\Router\RouteCollection;
  * @var RouteCollection $routes
  */
 // Change the default route to redirect to login
-$routes->get('/', 'Auth::login');
+$routes->get('/', 'Admin::login');
 
 // Auth routes
-$routes->get('auth/login', 'Auth::login');
-$routes->post('auth/login', 'Auth::login');
-$routes->get('auth/logout', 'Auth::logout');
+$routes->get('admin/login', 'Admin::login');
+$routes->post('admin/login', 'Admin::login');
+$routes->get('admin/logout', 'Admin::logout');
 
 // Dashboard
-$routes->get('dashboard', 'Dashboard::index');
+$routes->get('dashboard', 'Admin::dashboard');
 
 // Results routes
 $routes->get('results', 'Results::index');

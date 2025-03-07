@@ -29,6 +29,10 @@ $routes->get('test-auth', 'TestAuth::index');
 $routes->post('test-auth/login', 'TestAuth::login');
 $routes->get('test-auth/logout', 'TestAuth::logout');
 
+// Register route
+$routes->get('admin/register', 'Admin::register');
+$routes->post('admin/register', 'Admin::register');
+
 // Default route to handle 404 errors
 $routes->set404Override(function() {
     return view('errors/html/error_404');

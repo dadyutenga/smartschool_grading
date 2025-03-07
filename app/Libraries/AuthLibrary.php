@@ -26,11 +26,9 @@ class AuthLibrary
         }
         
         log_message('debug', "User found, checking password");
-        log_message('debug', "Input password: $password, DB password: {$user['password']}");
         
-        // IMPORTANT: Direct plain text comparison - only for testing!
-        // In production, you should use password_verify() with hashed passwords
-        if ($user['password'] === $password) {
+        // Use password_verify to check hashed password
+        if (password_verify($password, $user['password'])) {
             log_message('debug', "Password matched, setting session");
             
             // Set session data
@@ -69,5 +67,11 @@ class AuthLibrary
     public function logout()
     {
         $this->session->destroy();
+    }
+    
+    // Helper method to hash passwords
+    public function hashPassword($password)
+    {
+        return password_hash($password, PASSWORD_DEFAULT);
     }
 } 

@@ -25,8 +25,9 @@ $routes->get('results/student/(:num)/(:num)', 'Results::viewStudentResults/$1/$2
 $routes->post('results/getSections', 'Results::getSections');
 
 // Test route to verify framework is working
-$routes->get('test', 'Test::index');
-$routes->get('test/users', 'Test::users');
+$routes->get('test-auth', 'TestAuth::index');
+$routes->post('test-auth/login', 'TestAuth::login');
+$routes->get('test-auth/logout', 'TestAuth::logout');
 
 // Default route to handle 404 errors
 $routes->set404Override(function() {

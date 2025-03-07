@@ -21,7 +21,7 @@
                             </div>
                         <?php endif; ?>
                         
-                        <?= form_open('auth/login') ?>
+                        <form action="<?= base_url('auth/login') ?>" method="post">
                             <div class="mb-3">
                                 <label for="username" class="form-label">Username</label>
                                 <input type="text" class="form-control" id="username" name="username" required>
@@ -33,7 +33,7 @@
                             <div class="d-grid">
                                 <button type="submit" class="btn btn-primary">Login</button>
                             </div>
-                        <?= form_close() ?>
+                        </form>
                     </div>
                 </div>
             </div>

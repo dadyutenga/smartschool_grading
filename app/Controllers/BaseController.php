@@ -26,7 +26,7 @@ abstract class BaseController extends Controller
     /**
      * Instance of the main Request object.
      *
-     * @var \CodeIgniter\HTTP\IncomingRequest
+     * @var CLIRequest|IncomingRequest
      */
     protected $request;
 
@@ -46,22 +46,26 @@ abstract class BaseController extends Controller
     // protected $session;
 
     protected $auth;
-    protected $session;
+    protected $currentSession;
 
     /**
-     * Constructor.
+     * @return void
      */
-    public function initController(\CodeIgniter\HTTP\RequestInterface $request, \CodeIgniter\HTTP\ResponseInterface $response, \Psr\Log\LoggerInterface $logger)
+    public function initController(RequestInterface $request, ResponseInterface $response, LoggerInterface $logger)
     {
         // Do Not Edit This Line
         parent::initController($request, $response, $logger);
 
         // Preload any models, libraries, etc, here.
-        $this->session = \Config\Services::session();
+
+        // E.g.: $this->session = service('session');
+
+        // Initialize auth library
         $this->auth = new AuthLibrary();
         
-        // E.g.: $this->session = \Config\Services::session();
-        helper(['form', 'url']);
+        // Get current session
+        $sessionModel = new SessionModel();
+        $this->currentSession = $sessionModel->getCurrentSession();
     }
 
     // Check if user is logged in

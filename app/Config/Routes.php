@@ -25,9 +25,8 @@ $routes->get('results/student/(:num)/(:num)', 'Results::viewStudentResults/$1/$2
 $routes->post('results/getSections', 'Results::getSections');
 
 // Test route to verify framework is working
-$routes->get('test', function() {
-    return 'CodeIgniter is working!';
-});
+$routes->get('test', 'Test::index');
+$routes->get('test/users', 'Test::users');
 
 // Default route to handle 404 errors
 $routes->set404Override(function() {

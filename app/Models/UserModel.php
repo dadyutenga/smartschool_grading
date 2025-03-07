@@ -18,9 +18,18 @@ class UserModel extends Model
     // Get user by username
     public function getUserByUsername($username)
     {
-        return $this->where('username', $username)
-                    ->where('is_active', 'yes')
+        error_log("Looking up user by username: $username");
+        
+        $user = $this->where('username', $username)
                     ->first();
+        
+        if (!$user) {
+            error_log("No user found with username: $username");
+            return null;
+        }
+        
+        error_log("User found: " . json_encode($user));
+        return $user;
     }
     
     // Get user with role
@@ -35,14 +44,23 @@ class UserModel extends Model
 
     public function logUserLogin($user, $role)
     {
+        error_log("Logging user login: $user, role: $role");
+        
         $db = \Config\Database::connect();
         $data = [
             'user' => $user,
             'role' => $role,
             'ipaddress' => $_SERVER['REMOTE_ADDR'],
-            'user_agent' => $_SERVER['HTTP_USER_AGENT']
+            'user_agent' => $_SERVER['HTTP_USER_AGENT'],
+            'login_datetime' => date('Y-m-d H:i:s')
         ];
         
-        $db->table('userlog')->insert($data);
+        try {
+            $db->table('userlog')->insert($data);
+            error_log("Login logged successfully");
+        } catch (\Exception $e) {
+            error_log("Error logging login: " . $e->getMessage());
+            // Continue even if logging fails
+        }
     }
 } 

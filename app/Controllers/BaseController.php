@@ -8,8 +8,6 @@ use CodeIgniter\HTTP\IncomingRequest;
 use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\ResponseInterface;
 use Psr\Log\LoggerInterface;
-use App\Libraries\AuthLibrary;
-use App\Models\SessionModel;
 
 /**
  * Class BaseController
@@ -37,22 +35,10 @@ abstract class BaseController extends Controller
      *
      * @var array
      */
-    protected $helpers = ['form', 'url'];
+    protected $helpers = [];
 
     /**
-     * Session instance
-     */
-    protected $session;
-
-    /**
-     * Auth library instance
-     */
-    protected $auth;
-
-    protected $currentSession;
-
-    /**
-     * @return void
+     * Constructor.
      */
     public function initController(RequestInterface $request, ResponseInterface $response, LoggerInterface $logger)
     {
@@ -60,32 +46,6 @@ abstract class BaseController extends Controller
         parent::initController($request, $response, $logger);
 
         // Preload any models, libraries, etc, here.
-        $this->session = \Config\Services::session();
-        $this->auth = new \App\Libraries\AuthLibrary();
-        
-        // Get current session
-        $sessionModel = new SessionModel();
-        $this->currentSession = $sessionModel->getCurrentSession();
-    }
-
-    // Check if user is logged in
-    protected function requireLogin()
-    {
-        if (!$this->auth->isLoggedIn()) {
-            return redirect()->to('/auth/login');
-        }
-    }
-    
-    // Check if user has specific role
-    protected function requireRole($roles)
-    {
-        $this->requireLogin();
-        
-        $userRole = $this->auth->getRole();
-        $roles = is_array($roles) ? $roles : [$roles];
-        
-        if (!in_array($userRole, $roles)) {
-            return redirect()->to('/dashboard')->with('error', 'You do not have permission to access this page');
-        }
+        // E.g.: $this->session = \Config\Services::session();
     }
 }

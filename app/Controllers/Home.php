@@ -4,8 +4,9 @@ namespace App\Controllers;
 
 class Home extends BaseController
 {
-    public function index(): string
+    public function index()
     {
-        return view('welcome_message');
+        // Redirect to login page instead of showing welcome message
+        return redirect()->to('auth/login');
     }
 }

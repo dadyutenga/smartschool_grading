@@ -18,11 +18,19 @@ class Dashboard extends BaseController
     
     public function index()
     {
+        // Debug: Check if this method is being called
+        log_message('debug', 'Dashboard::index method called');
+        
         // Require login
-        $this->requireLogin();
+        if (!$this->auth->isLoggedIn()) {
+            log_message('debug', 'User not logged in, redirecting to login page');
+            return redirect()->to('/auth/login');
+        }
         
         $userRole = $this->auth->getRole();
         $userId = $this->auth->getUserId();
+        
+        log_message('debug', 'User role: ' . $userRole . ', User ID: ' . $userId);
         
         $data = [
             'title' => 'Dashboard'

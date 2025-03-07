@@ -21,14 +21,32 @@
                             </div>
                         <?php endif; ?>
                         
+                        <?php if (session()->getFlashdata('success')): ?>
+                            <div class="alert alert-success">
+                                <?= session()->getFlashdata('success') ?>
+                            </div>
+                        <?php endif; ?>
+                        
                         <form action="<?= base_url('auth/login') ?>" method="post">
                             <div class="mb-3">
                                 <label for="username" class="form-label">Username</label>
-                                <input type="text" class="form-control" id="username" name="username" required>
+                                <input type="text" class="form-control <?= (session()->getFlashdata('username_error')) ? 'is-invalid' : '' ?>" 
+                                       id="username" name="username" value="<?= old('username') ?>" required>
+                                <?php if (session()->getFlashdata('username_error')): ?>
+                                    <div class="invalid-feedback">
+                                        <?= session()->getFlashdata('username_error') ?>
+                                    </div>
+                                <?php endif; ?>
                             </div>
                             <div class="mb-3">
                                 <label for="password" class="form-label">Password</label>
-                                <input type="password" class="form-control" id="password" name="password" required>
+                                <input type="password" class="form-control <?= (session()->getFlashdata('password_error')) ? 'is-invalid' : '' ?>" 
+                                       id="password" name="password" required>
+                                <?php if (session()->getFlashdata('password_error')): ?>
+                                    <div class="invalid-feedback">
+                                        <?= session()->getFlashdata('password_error') ?>
+                                    </div>
+                                <?php endif; ?>
                             </div>
                             <div class="d-grid">
                                 <button type="submit" class="btn btn-primary">Login</button>
